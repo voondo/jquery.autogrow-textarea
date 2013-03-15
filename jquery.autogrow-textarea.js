@@ -64,14 +64,14 @@
 			horizontal: false
 		}, options);
 		
-		if( options.vertical && ! options.horizontal && $.browser.msie && $.browser.version < 9 )
+		if( options.vertical && ! options.horizontal && !$.support.leadingWhitespace ) // .browser.msie && $.browser.version < 9 )
 			return autogrowVerticallyIE8.apply( this, arguments );
 		
         this.filter('textarea').each(function() {
             
             var $this       = $(this),
                 minHeight   = $this.height(),
-				maxHeight	= $this.attr( "maxHeight" ),
+				maxHeight	= 400, // $this.attr( "maxHeight" ),
                 lineHeight  = $this.css('lineHeight'),
 				minWidth	= typeof( $this.attr( "minWidth" ) ) == "undefined" ? 0 : $this.attr( "minWidth" );
             
@@ -121,7 +121,7 @@
 				{
 					shadow.css( "width", $(this).width() - parseInt($this.css('paddingLeft'),10) - parseInt($this.css('paddingRight'),10) );
 					var shadowHeight = shadow.height();
-					var newHeight = Math.min( Math.max( shadowHeight, minHeight ), maxHeight );
+					var newHeight = Math.min( Math.max( shadowHeight, minHeight ), maxHeight-15 ) + 15;
 					$(this).css( "height", newHeight );
 					$(this).css( "overflow", newHeight == maxHeight ? "auto" : "hidden" );
 				}
